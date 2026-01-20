@@ -8,6 +8,7 @@ import { LayoutDashboard, ListTodo, BarChart3, Menu, X } from 'lucide-react';
 const navigation = [
     { name: 'Dashboard', href: '/', icon: LayoutDashboard },
     { name: 'Tasks', href: '/tasks', icon: ListTodo },
+    { name: 'Month View', href: '/month', icon: BarChart3 },
 ];
 
 export const Sidebar: React.FC = () => {

@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useMemo, useEffect } from 'react';
-import { useSearchParams } from 'next/navigation';
+import { useSearchParams, useRouter } from 'next/navigation';
 import { useTasks, useCreateTask, useUpdateTaskStatus } from '@/lib/hooks/useTasks';
 import { TaskBoard } from '@/components/tasks/TaskBoard';
 import { TaskModal } from '@/components/tasks/TaskModal';
@@ -11,10 +11,10 @@ import { WEEKS } from '@/lib/utils/constants';
 
 export default function TasksPage() {
     const searchParams = useSearchParams();
+    const router = useRouter();
     const weekParam = searchParams.get('week');
     const [activeWeek, setActiveWeek] = useState(weekParam ? parseInt(weekParam) : 1);
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [selectedTask, setSelectedTask] = useState<Task | null>(null);
     const [initialStatus, setInitialStatus] = useState<TaskStatus>('todo');
 
     const { data: allTasks = [], isLoading } = useTasks();
@@ -32,31 +32,23 @@ export default function TasksPage() {
     }, [allTasks, activeWeek]);
 
     const handleAddTask = (status?: TaskStatus) => {
-        setSelectedTask(null);
         setInitialStatus(status || 'todo');
         setIsModalOpen(true);
     };
 
     const handleTaskClick = (task: Task) => {
-        setSelectedTask(task);
-        setIsModalOpen(true);
+        router.push(`/tasks/${task.id}`);
     };
 
+    // This handleSubmit function is no longer directly used in this component
+    // as task creation/editing is now handled on separate pages.
+    // It's kept here for context if it were to be refactored or moved.
     const handleSubmit = (taskData: Partial<Task>) => {
-        if (selectedTask) {
-            // Update existing task
-            updateTaskStatus.mutate({
-                id: selectedTask.id,
-                status: taskData.status as TaskStatus,
-            });
-        } else {
-            // Create new task
-            createTask.mutate({
-                ...taskData,
-                date: new Date().toISOString().split('T')[0],
-                comments: [],
-            } as any);
-        }
+        createTask.mutate({
+            ...taskData,
+            date: new Date().toISOString().split('T')[0],
+            comments: [],
+        } as any);
     };
 
     const handleStatusChange = (taskId: string, status: TaskStatus) => {
@@ -92,8 +84,8 @@ export default function TasksPage() {
                             key={w.id}
                             onClick={() => setActiveWeek(w.id)}
                             className={`px-4 md:px-6 py-2 md:py-3 rounded-t-xl text-xs md:text-sm font-bold transition-all relative whitespace-nowrap ${activeWeek === w.id
-                                    ? 'text-[rgb(var(--color-primary))] bg-[rgb(var(--color-bg-tertiary))]'
-                                    : 'text-[rgb(var(--color-text-tertiary))] hover:text-[rgb(var(--color-text-secondary))]'
+                                ? 'text-[rgb(var(--color-primary))] bg-[rgb(var(--color-bg-tertiary))]'
+                                : 'text-[rgb(var(--color-text-tertiary))] hover:text-[rgb(var(--color-text-secondary))]'
                                 }`}
                         >
                             {w.label}
@@ -118,12 +110,8 @@ export default function TasksPage() {
             {/* Task Modal */}
             <TaskModal
                 isOpen={isModalOpen}
-                onClose={() => {
-                    setIsModalOpen(false);
-                    setSelectedTask(null);
-                }}
+                onClose={() => setIsModalOpen(false)}
                 onSubmit={handleSubmit}
-                task={selectedTask}
                 initialStatus={initialStatus}
                 initialWeek={activeWeek}
             />
