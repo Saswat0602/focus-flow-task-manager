@@ -4,7 +4,6 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { LayoutDashboard, ListTodo, BarChart3, Menu, X } from 'lucide-react';
-import { ThemeToggle } from './ThemeToggle';
 
 const navigation = [
     { name: 'Dashboard', href: '/', icon: LayoutDashboard },
@@ -61,8 +60,8 @@ export const Sidebar: React.FC = () => {
                                 href={item.href}
                                 onClick={() => setIsMobileMenuOpen(false)}
                                 className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all ${isActive
-                                        ? 'bg-[rgb(var(--color-primary))] text-white shadow-md'
-                                        : 'text-[rgb(var(--color-text-secondary))] hover:bg-[rgb(var(--color-bg-tertiary))]'
+                                    ? 'bg-[rgb(var(--color-primary))] text-white shadow-md'
+                                    : 'text-[rgb(var(--color-text-secondary))] hover:bg-[rgb(var(--color-bg-tertiary))]'
                                     }`}
                             >
                                 <Icon size={18} />
@@ -73,8 +72,7 @@ export const Sidebar: React.FC = () => {
                 </nav>
 
                 {/* Bottom Section */}
-                <div className="mt-auto pt-6 border-t border-[rgb(var(--color-border-secondary))] space-y-4">
-                    <ThemeToggle />
+                <div className="mt-auto pt-6 border-t border-[rgb(var(--color-border-secondary))]">
                     <div className="p-4 bg-[rgb(var(--color-bg-tertiary))] rounded-2xl">
                         <p className="text-[10px] font-bold text-[rgb(var(--color-text-tertiary))] uppercase tracking-widest mb-2">
                             Month View

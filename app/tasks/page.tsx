@@ -84,14 +84,14 @@ export default function TasksPage() {
                 onAddTask={() => handleAddTask()}
             />
 
-            <div className="flex flex-col h-full animate-slide-in-right">
+            <div className="flex flex-col h-full animate-slide-in-right overflow-hidden">
                 {/* Week Tab Switcher */}
-                <div className="px-8 pt-6 pb-2 bg-[rgb(var(--color-bg-primary))] flex items-center gap-1 border-b border-[rgb(var(--color-border-secondary))] overflow-x-auto scrollbar-thin">
+                <div className="px-4 md:px-8 pt-4 md:pt-6 pb-2 bg-[rgb(var(--color-bg-primary))] flex items-center gap-1 border-b border-[rgb(var(--color-border-secondary))] overflow-x-auto scrollbar-thin">
                     {WEEKS.map((w) => (
                         <button
                             key={w.id}
                             onClick={() => setActiveWeek(w.id)}
-                            className={`px-6 py-3 rounded-t-xl text-sm font-bold transition-all relative whitespace-nowrap ${activeWeek === w.id
+                            className={`px-4 md:px-6 py-2 md:py-3 rounded-t-xl text-xs md:text-sm font-bold transition-all relative whitespace-nowrap ${activeWeek === w.id
                                     ? 'text-[rgb(var(--color-primary))] bg-[rgb(var(--color-bg-tertiary))]'
                                     : 'text-[rgb(var(--color-text-tertiary))] hover:text-[rgb(var(--color-text-secondary))]'
                                 }`}
@@ -105,7 +105,7 @@ export default function TasksPage() {
                 </div>
 
                 {/* Task Board */}
-                <div className="flex-1 p-8 bg-[rgb(var(--color-bg-secondary))] overflow-hidden">
+                <div className="flex-1 p-4 md:p-8 bg-[rgb(var(--color-bg-secondary))] overflow-hidden">
                     <TaskBoard
                         tasks={weekTasks}
                         onTaskClick={handleTaskClick}

@@ -71,14 +71,13 @@ export const TaskBoard: React.FC<TaskBoardProps> = ({
             onDragStart={handleDragStart}
             onDragEnd={handleDragEnd}
         >
-            <div className="flex gap-6 overflow-x-auto pb-10 scrollbar-thin">
+            <div className="flex gap-4 md:gap-6 overflow-x-auto pb-6 md:pb-10 scrollbar-thin min-h-0">
                 {STATUSES.map((status) => (
                     <StatusColumn
                         key={status.id}
                         status={status}
                         tasks={getTasksByStatus(status.id)}
                         onTaskClick={onTaskClick}
-                        onStatusChange={onStatusChange}
                         onAddTask={() => onAddTask(status.id)}
                     />
                 ))}
